@@ -6,8 +6,8 @@ plugins {
 }
 
 android {
-    namespace = "com.example.testtask.main"
-    compileSdk = 35
+    namespace = "com.example.testtask.navigation"
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -32,24 +32,18 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
     val composeBom = platform(libs.compose.bom)
     implementation(composeBom)
 
-    api(project(":navigation"))
-
-    implementation(libs.activity.compose)
-    implementation(libs.compose.foundation)
-    implementation(libs.compose.material3)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.activity.compose)
     implementation(libs.androidx.appcompat)
-    implementation(libs.navigation.compose)
     implementation(libs.material)
+    implementation(libs.navigation.compose)
+    implementation(libs.serialization.json)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

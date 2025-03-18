@@ -22,3 +22,6 @@ dependencyResolutionManagement {
 rootProject.name = "Test task"
 include(":app")
 include(":main")
+include(":create")
+include(":navigation")
+include(":note")

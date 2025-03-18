@@ -6,8 +6,8 @@ plugins {
 }
 
 android {
-    namespace = "com.example.testtask.main"
-    compileSdk = 35
+    namespace = "com.example.testtask.create"
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -31,9 +31,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
     }
 }
 

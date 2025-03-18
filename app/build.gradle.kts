@@ -42,6 +42,9 @@ android {
 
 dependencies {
     api(project(":main"))
+    api(project(":create"))
+    api(project(":note"))
+    api(project(":navigation"))
 
     val composeBom = platform(libs.compose.bom)
     implementation(composeBom)
