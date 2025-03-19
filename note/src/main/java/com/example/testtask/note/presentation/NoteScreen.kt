@@ -18,15 +18,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.testtask.navigation.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(navController: NavHostController) {
+    val viewModel: NoteViewModel = viewModel()
+    LaunchedEffect(Unit) { viewModel.onEnterScreen() }
+    val state = viewModel.state.collectAsStateWithLifecycle()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -69,13 +75,13 @@ fun NoteScreen(navController: NavHostController) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     fontSize = 24.sp,
-                    text = "Title",
+                    text = state.value.title,
                 )
                 Text(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxSize(),
-                    text = "Body",
+                    text = state.value.body,
                 )
             }
         }

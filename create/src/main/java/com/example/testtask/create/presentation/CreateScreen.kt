@@ -23,18 +23,20 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateScreen(navController: NavHostController) {
+    val viewModel: CreateViewModel = viewModel()
+    LaunchedEffect(Unit) { viewModel.onEnterScreen() }
+    val state = viewModel.state.collectAsStateWithLifecycle()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -79,20 +81,18 @@ fun CreateScreen(navController: NavHostController) {
                 modifier = Modifier.padding(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                var title by remember { mutableStateOf("") }
                 TextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = title,
-                    onValueChange = { title = it },
+                    value = state.value.title,
+                    onValueChange = viewModel::onTitleChange,
                     label = { Text("Title") }
                 )
-                var body by remember { mutableStateOf("") }
                 TextField(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxSize(),
-                    value = body,
-                    onValueChange = { body = it },
+                    value = state.value.body,
+                    onValueChange = viewModel::onBodyChange,
                     label = { Text("Body") }
                 )
             }

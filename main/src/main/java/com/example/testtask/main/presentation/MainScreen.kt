@@ -19,8 +19,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.testtask.navigation.Screens
 
@@ -29,6 +32,9 @@ import com.example.testtask.navigation.Screens
 fun MainScreen(
     navController: NavHostController,
 ) {
+    val viewModel: MainViewModel = viewModel()
+    LaunchedEffect(Unit) { viewModel.onEnterScreen() }
+    val state = viewModel.state.collectAsStateWithLifecycle()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -58,15 +64,14 @@ fun MainScreen(
             contentPadding = PaddingValues(8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            val items = listOf("First", "Second", "Third")
-            items(items) {
+            items(state.value.notes) { item ->
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { navController.navigate(Screens.NoteScreen) }
                 ) {
                     Text(
                         modifier = Modifier.padding(16.dp),
-                        text = "Test",
+                        text = item,
                     )
                 }
             }
