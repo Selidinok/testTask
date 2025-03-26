@@ -7,8 +7,8 @@ object Screens {
     object MainScreen
 
     @Serializable
-    object CreateScreen
+    data class CreateScreen(val id: String?)
 
     @Serializable
-    object NoteScreen
+    data class NoteScreen(val id: String)
 }

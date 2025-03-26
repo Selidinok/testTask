@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.example.testtask.create.presentation.CreateScreen
 import com.example.testtask.main.presentation.MainScreen
 import com.example.testtask.note.presentation.NoteScreen
@@ -16,11 +17,13 @@ fun AppNavHost(navController: NavHostController) {
             MainScreen(navController)
         }
         composable<Screens.CreateScreen> {
-            CreateScreen(navController)
+            val id = it.toRoute<Screens.CreateScreen>().id
+            CreateScreen(navController, id)
         }
 
         composable<Screens.NoteScreen> {
-            NoteScreen(navController)
+            val id = it.toRoute<Screens.NoteScreen>().id
+            NoteScreen(navController, id)
         }
     }
 }

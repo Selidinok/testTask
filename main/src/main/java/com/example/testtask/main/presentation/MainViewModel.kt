@@ -18,7 +18,8 @@ class MainViewModel @Inject constructor(
     private val _state = MutableStateFlow(MainState())
     val state = _state.asStateFlow()
 
-    fun onEnterScreen() {
+    fun onRefresh() {
+        _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             try {
                 val data = interactor.getNoteState()
@@ -27,14 +28,5 @@ class MainViewModel @Inject constructor(
                 _state.update { it.copy(isLoading = false, error = exception.message) }
             }
         }
-    }
-
-    fun onSwipe() {
-        _state.update { it.copy(isLoading = true) }
-        onEnterScreen()
-    }
-
-    fun onRefresh() {
-        onEnterScreen()
     }
 }

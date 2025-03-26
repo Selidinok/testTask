@@ -45,6 +45,7 @@ dependencies {
 
     api(project(":navigation"))
     api(project(":api"))
+    api(project(":compose"))
 
     implementation(libs.activity.compose)
     implementation(libs.compose.foundation)

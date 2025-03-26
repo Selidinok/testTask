@@ -27,15 +27,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.testtask.compose.ErrorContent
+import com.example.testtask.compose.Loading
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateScreen(navController: NavHostController) {
-    val viewModel: CreateViewModel = viewModel()
-    LaunchedEffect(Unit) { viewModel.onEnterScreen() }
+fun CreateScreen(
+    navController: NavHostController,
+    id: String?,
+) {
+    val viewModel: CreateViewModel = hiltViewModel()
+    LaunchedEffect(Unit) { viewModel.onRefresh(id) }
     val state = viewModel.state.collectAsStateWithLifecycle()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -66,7 +71,7 @@ fun CreateScreen(navController: NavHostController) {
                 containerColor = Color.Transparent,
                 floatingActionButton = {
                     FloatingActionButton(
-                        onClick = { },
+                        onClick = viewModel::onSave,
                         containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
                     ) {
@@ -76,26 +81,41 @@ fun CreateScreen(navController: NavHostController) {
             )
         }
     ) { padding ->
-        Box(modifier = Modifier.padding(padding)) {
-            Column(
-                modifier = Modifier.padding(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = state.value.title,
-                    onValueChange = viewModel::onTitleChange,
-                    label = { Text("Title") }
-                )
-                TextField(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxSize(),
-                    value = state.value.body,
-                    onValueChange = viewModel::onBodyChange,
-                    label = { Text("Body") }
-                )
+        val state = state.value
+        Box(modifier = Modifier
+            .padding(padding)
+            .fillMaxSize()) {
+            when {
+                state.isLoading -> Loading()
+                state.error != null -> ErrorContent(state.error, viewModel::onRefresh)
+                else -> Content(state.data, viewModel)
             }
         }
+    }
+}
+
+@Composable
+private fun Content(
+    data: CreateData,
+    viewModel: CreateViewModel,
+) {
+    Column(
+        modifier = Modifier.padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = data.title,
+            onValueChange = viewModel::onTitleChange,
+            label = { Text("Title") }
+        )
+        TextField(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxSize(),
+            value = data.body,
+            onValueChange = viewModel::onBodyChange,
+            label = { Text("Body") }
+        )
     }
 }

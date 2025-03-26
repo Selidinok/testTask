@@ -41,6 +41,8 @@ dependencies {
     implementation(composeBom)
 
     api(project(":navigation"))
+    api(project(":api"))
+    api(project(":compose"))
 
     implementation(libs.activity.compose)
     implementation(libs.compose.foundation)
@@ -50,6 +52,7 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.material)
     implementation(libs.hilt)
+    implementation(libs.hilt.navigation)
     ksp(libs.hilt.compiler)
 
     testImplementation(libs.junit)
