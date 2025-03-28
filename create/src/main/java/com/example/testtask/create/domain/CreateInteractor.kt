@@ -14,11 +14,12 @@ class CreateInteractor @Inject constructor(
         return mapper.map(repository.getNote(id))
     }
 
-    suspend fun addNote(data: CreateData) {
-        if (data.id == null) {
+    suspend fun addNote(data: CreateData): CreateData {
+        val note = if (data.id == null) {
             repository.createNote(mapper.mapCreationRequest(data))
         } else {
             repository.updateNote(mapper.mapNote(data))
         }
+        return mapper.map(note)
     }
 }

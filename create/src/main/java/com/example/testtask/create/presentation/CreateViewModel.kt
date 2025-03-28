@@ -46,8 +46,8 @@ class CreateViewModel @Inject constructor(
         _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             try {
-                interactor.addNote(_state.value.data)
-                _state.update { it.copy(isLoading = false, error = null) }
+                val data = interactor.addNote(_state.value.data)
+                _state.update { it.copy(data = data, isLoading = false, error = null) }
             } catch (exception: Exception) {
                 _state.update { it.copy(isLoading = false, error = exception.message) }
             }

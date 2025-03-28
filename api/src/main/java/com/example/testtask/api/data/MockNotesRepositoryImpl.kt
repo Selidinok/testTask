@@ -20,11 +20,13 @@ class MockNotesRepositoryImpl @Inject constructor() : NotesRepository {
         return NotesMock.note.toNote()
     }
 
-    override suspend fun createNote(note: NoteCreationRequest) {
+    override suspend fun createNote(request: NoteCreationRequest): Note {
         delay(500)
+        return NotesMock.note.toNote()
     }
 
-    override suspend fun updateNote(note: Note) {
+    override suspend fun updateNote(note: Note): Note {
         delay(500)
+        return NotesMock.note.toNote()
     }
 }
