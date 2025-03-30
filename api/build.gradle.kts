@@ -37,6 +37,9 @@ android {
     buildFeatures {
         buildConfig = true
     }
+    testOptions.unitTests.all {
+        it.useJUnitPlatform()
+    }
 }
 
 dependencies {
@@ -48,5 +51,7 @@ dependencies {
     implementation(libs.gson)
 
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

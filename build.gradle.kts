@@ -16,3 +16,7 @@ buildscript {
         classpath(libs.hilt.plugin)
     }
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
